@@ -1,10 +1,12 @@
-import Vue from "vue";
-import Router from "vue-router";
-import Login from "./views/Login.vue";
-import Home from "./views/Home.vue";
-import User from './views/User.vue';
+import Vue from "vue"
+import Router from "vue-router"
+import Login from "./views/Login.vue"
+import Home from "./views/Home.vue"
+import User from "./views/User/User.vue"
+import Roles from "./views/Roles/Roles"
+import Rights from "./views/Rights/rights"
 
-Vue.use(Router);
+Vue.use(Router)
 
 const router = new Router({
   routes: [
@@ -21,6 +23,14 @@ const router = new Router({
           // 如果不加/  那么访问的时候直接  /home/user
           path: "/user",
           component: User
+        },
+        {
+          path: "/roles",
+          component: Roles
+        },
+        {
+          path: "/rights",
+          component: Rights
         }
       ]
     },
@@ -29,14 +39,14 @@ const router = new Router({
       redirect: "/home"
     }
   ]
-});
+})
 
 // 注册一个导航守卫
 router.beforeEach((to, from, next) => {
   // 1. 判断用户访问的是不是登录页面， 如果是登录页面，直接放行
   if (to.path === "/login") {
-    next();
-    return;
+    next()
+    return
   }
 
   // 2. 如果访问的是其他的页面，判断用户是否进行了登录
@@ -44,9 +54,9 @@ router.beforeEach((to, from, next) => {
   //    2.2 如果没登录，那就跳转到登录页
 
   if (localStorage.getItem("token")) {
-    next();
+    next()
   } else {
-    router.push("/login");
+    router.push("/login")
   }
 
   // console.log(to, from);
@@ -56,6 +66,6 @@ router.beforeEach((to, from, next) => {
   // next 这里提供的方法，是用来进行页面的跳转的
   // 如果不调用这个方法，那么页面就不会进入
   // next();
-});
+})
 
-export default router;
+export default router

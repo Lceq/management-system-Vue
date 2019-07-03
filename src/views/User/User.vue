@@ -38,7 +38,6 @@
       <el-table-column label="用户状态">
         <!-- 在这里，无法直接获取到每一行的数据，这个数据在el-table表格组件中 -->
         <!-- 如果要获取每一行的数据，那么我们就需要通过作用于插槽的方式，把数据接收到 -->
-
         <template v-slot="{row}">
           <el-switch
             v-model="row.mg_state"
@@ -58,7 +57,13 @@
             @click="openEditUserModal(row.id)"
           ></el-button>
           <el-button type="danger" icon="el-icon-delete" @click="delUser(row.id)" size="mini" plain></el-button>
-          <el-button type="success" icon="el-icon-check" size="mini" plain>分配角色</el-button>
+          <el-button
+            type="success"
+            icon="el-icon-check"
+            size="mini"
+            @click="openAssignRolseModal(row)"
+            plain
+          >分配角色</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -110,10 +115,34 @@
         <el-button type="primary" @click="editUser">确 定</el-button>
       </div>
     </el-dialog>
+    <!-- 分配角色模态框 -->
+    <el-dialog title="分配角色" :visible.sync="AssignRolseModalShow">
+      <el-form :model="assignRolseFrom">
+        <el-form-item label="用户名" label-position="left" label-width="100px">
+          <el-tag type="info" v-text="assignRolseFrom.username"></el-tag>
+        </el-form-item>
+        <el-form-item label="活动区域" label-width="100px">
+          <el-select placeholder="请选择" v-model="assignRolseFrom.rid">
+            <el-option
+              v-for="item in roleList"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.id"
+            ></el-option>
+            <!-- <el-option value="1"></el-option> -->
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="AssignRolseModalShow = false">取 消</el-button>
+        <el-button type="primary" @click="updataRolse">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+// import this.$http from "this.$http";
 // import this.$http from "this.$http";
 export default {
   data() {
@@ -125,6 +154,7 @@ export default {
       // 当前页码
       currentPage: 1,
       keyword: "",
+      AssignRolseModalShow: false,
       addModalShow: false,
       editModalShow: false,
       // 添加数据
@@ -190,10 +220,51 @@ export default {
             trigger: "change"
           }
         ]
-      }
+      },
+      // 分配角色的数据
+      assignRolseFrom: {
+        username: "",
+        rid: ""
+      },
+      roleList: []
     };
   },
   methods: {
+    // 分配角色模态框的确认按钮
+    async updataRolse() {
+      // this.AssignRolseModalShow = false;
+      let res = await this.$http({
+        url: `users/${this.assignRolseFrom.id}/role`,
+        method: "put",
+        data: {
+          rid: this.assignRolseFrom.rid
+        }
+      });
+      //   console.log(res);
+      this.$message({
+        type: "success",
+        message: res.data.meta.msg,
+        duration: 1000
+      });
+      this.isAssainRoleDialogShow = false;
+    },
+
+    // 分配角色
+    // 把用户名显示在模态框上
+    async openAssignRolseModal(row) {
+      let res = await this.$http({
+        url: `users/${row.id}`
+      });
+      // console.log(res);
+      // 下拉框的数据
+      let roleResult = await this.$http({
+        url: "roles"
+      });
+      // console.log(roleResult.data.data);
+      this.roleList = roleResult.data.data;
+      this.assignRolseFrom = res.data.data;
+      this.AssignRolseModalShow = true;
+    },
     // render
     getUserList() {
       this.$http({
@@ -227,7 +298,7 @@ export default {
     // 搜索功能
     search() {
       this.getUserList();
-      console.log(this.keyword);
+      // console.log(this.keyword);
     },
     // 失去焦点显示所有数据
     blur() {
@@ -252,7 +323,7 @@ export default {
           //   Authorization: localStorage.getItem("token")
           // }
         });
-        console.log(res);
+        // console.log(res);
         if (res.data.meta.status === 200) {
           this.$message({
             type: "success",
@@ -279,7 +350,7 @@ export default {
         //   Authorization: localStorage.getItem("token")
         // }
       });
-      console.log(res);
+      // console.log(res);
       if (res.data.meta.status === 200) {
         this.$message({
           type: "success",
@@ -349,7 +420,7 @@ export default {
     },
     // 修改功能
     async editUser() {
-      console.log(3333);
+      // console.log(3333);
 
       try {
         // 验证表单效验是否正确（true 正确）
@@ -380,9 +451,9 @@ export default {
             duration: 1000
           });
         }
-        console.log(res);
+        // console.log(res);
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     }
   },
@@ -391,8 +462,8 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped>
-.el-breadcrumb {
+<style lang="less">
+.el-main .el-breadcrumb {
   background-color: #d4dae0;
   font-size: 20px;
   height: 50px;

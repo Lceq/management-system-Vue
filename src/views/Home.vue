@@ -11,7 +11,7 @@
         <el-col :span="6" class="header-right">
           <div>
             欢迎39期星耀会员
-            <a href="#">退出</a>
+            <a href="#" @click.prevent="logout">退出</a>
           </div>
         </el-col>
       </el-row>
@@ -31,8 +31,6 @@
         -->
         <el-menu
           :default-active="$route.path"
-          设置默认高亮的菜单项
-          赋值的内容为菜单项的index值
           class="el-menu-vertical-demo"
           background-color="#545c64"
           text-color="#fff"
@@ -59,11 +57,11 @@
               <i class="el-icon-location"></i>
               <span>权限管理</span>
             </template>
-            <el-menu-item index="1-4-1">
+            <el-menu-item index="/roles">
               <i class="el-icon-menu"></i>
               <span>角色列表</span>
             </el-menu-item>
-            <el-menu-item index="1-4-1">
+            <el-menu-item index="/rights">
               <i class="el-icon-menu"></i>
               <span>权限列表</span>
             </el-menu-item>
@@ -119,7 +117,16 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    logout() {
+      // 1. 清空token
+      localStorage.removeItem("token");
+      // 2. 跳转到登录页
+      this.$router.push("/login");
+    }
+  }
+};
 </script>
 
 <style>
