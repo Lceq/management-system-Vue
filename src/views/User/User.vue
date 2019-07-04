@@ -140,10 +140,8 @@
     </el-dialog>
   </div>
 </template>
-
 <script>
-// import this.$http from "this.$http";
-// import this.$http from "this.$http";
+// mmyyy
 export default {
   data() {
     return {

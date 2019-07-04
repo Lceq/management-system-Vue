@@ -171,7 +171,7 @@ export default {
     // 一级删除，二级和三级
     // bug 点击删除后，会合起来
     async delRights(row, id) {
-      console.log(id);
+      // console.log(id);
       //  拼接id
       let level1Ids = [];
       let level2Ids = [];

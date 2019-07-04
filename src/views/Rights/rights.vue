@@ -44,7 +44,7 @@ export default {
       url: "rights/list"
     });
 
-    console.log(res);
+    // console.log(res);
     this.rightsFrom = res.data.data;
   }
 };

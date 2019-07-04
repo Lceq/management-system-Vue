@@ -41,70 +41,18 @@
           <!-- el-submenu的属性  -->
           <!-- index 这个是当前菜单项的id 唯一标识 -->
           <!-- el-menu-item 这个组件就是每一个没有子菜单项的菜单 -->
-          <el-submenu index="1">
+          <el-submenu :index=" ''+menus1.id" v-for="menus1 in menusList" :key="menus1.id">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>用户管理</span>
+              <span>{{menus1.authName}}</span>
             </template>
-            <el-menu-item index="/user">
+            <el-menu-item
+              :index="'/'+ menus2.path"
+              v-for="menus2 in menus1.children"
+              :key="menus2.id"
+            >
               <i class="el-icon-menu"></i>
-              <span>用户管理</span>
-            </el-menu-item>
-          </el-submenu>
-
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>权限管理</span>
-            </template>
-            <el-menu-item index="/roles">
-              <i class="el-icon-menu"></i>
-              <span>角色列表</span>
-            </el-menu-item>
-            <el-menu-item index="/rights">
-              <i class="el-icon-menu"></i>
-              <span>权限列表</span>
-            </el-menu-item>
-          </el-submenu>
-
-          <el-submenu index="3">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>商品管理</span>
-            </template>
-            <el-menu-item index="1-4-1">
-              <i class="el-icon-menu"></i>
-              <span>商品列表</span>
-            </el-menu-item>
-            <el-menu-item index="1-4-1">
-              <i class="el-icon-menu"></i>
-              <span>分类参数</span>
-            </el-menu-item>
-            <el-menu-item index="1-4-1">
-              <i class="el-icon-menu"></i>
-              <span>商品分类</span>
-            </el-menu-item>
-          </el-submenu>
-
-          <el-submenu index="4">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>订单管理</span>
-            </template>
-            <el-menu-item index="1-4-1">
-              <i class="el-icon-menu"></i>
-              <span>订单列表</span>
-            </el-menu-item>
-          </el-submenu>
-
-          <el-submenu index="5">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>数据统计</span>
-            </template>
-            <el-menu-item index="1-4-1">
-              <i class="el-icon-menu"></i>
-              <span>数据报表</span>
+              <span>{{menus2.authName}}</span>
             </el-menu-item>
           </el-submenu>
         </el-menu>
@@ -118,6 +66,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      menusList: []
+    };
+  },
   methods: {
     logout() {
       // 1. 清空token
@@ -125,6 +78,14 @@ export default {
       // 2. 跳转到登录页
       this.$router.push("/login");
     }
+  },
+  // 侧边的显示与与隐藏
+  async created() {
+    let res = await this.$http({
+      url: "menus"
+    });
+    // console.log(res);
+    this.menusList = res.data.data;
   }
 };
 </script>
