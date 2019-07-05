@@ -12,6 +12,7 @@ import "./assets/css/index.css"
 // 3. 安装ElementUI
 Vue.use(ElementUI)
 // 默认地址
+// mmyyy  day11
 axios.defaults.baseURL = "http://localhost:8888/api/private/v1/"
 // 设置axios的请求拦截器
 axios.interceptors.request.use(function(config) {

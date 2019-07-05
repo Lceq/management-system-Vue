@@ -38,7 +38,7 @@
           </el-form-item>
           <el-form-item label="是否促销">
             <el-radio v-model="goodAddForm.is_promote" label="1">是</el-radio>
-            <el-radio v-model="goodAddForm.is_promote" label="2">否</el-radio>
+            <el-radio v-model="goodAddForm.is_promote" label="0">否</el-radio>
           </el-form-item>
         </el-form>
         <!-- 下一步按钮 -->
@@ -86,7 +86,7 @@ export default {
         goods_weight: 0,
         goods_number: 0,
         goods_cat: [],
-        is_promote: "",
+        is_promote: "0",
         goods_introduce: "",
         pics: []
       },
@@ -149,7 +149,7 @@ export default {
         method: "post",
         data: newgoodAddForm
       });
-      console.log(res);
+      // console.log(res);
       if (res.data.meta.status == 201) {
         this.$router.push("/goods");
       }
@@ -157,3 +157,25 @@ export default {
   }
 };
 </script>
+<style >
+/* ql-editor  */
+/* .ql-editor.ql-blank{
+  height: 200px;
+  background-color: pink;
+} */
+/* .el-tab-pane.quill-editor {
+  height: 200px;
+} */
+/* .quill-editor {
+}
+.ql-container .ql-snow {
+  height: 300px;
+}
+.quill-editor {
+  height: 200px;
+} */
+/* ql-snow */
+.ql-container {
+  height: 200px;
+}
+</style>

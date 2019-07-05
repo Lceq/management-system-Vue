@@ -63,10 +63,10 @@
     <!-- 添加模态框 -->
     <el-dialog title="收货地址" :visible.sync="isShowAddCateDialog">
       <el-form ref="addCategoryFrom" :model="addCategoryFrom" label-width="100px">
-        <el-form-item label="分类名称">
+        <el-form-item label="分类名称" prop="cat_name">
           <el-input v-model="addCategoryFrom.cat_name" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="父级分类">
+        <el-form-item label="父级分类" prop="parentArr">
           <el-cascader v-model="addCategoryFrom.parentArr" :options="options" :props="defaultProps"></el-cascader>
         </el-form-item>
       </el-form>
