@@ -1,14 +1,16 @@
 import Vue from "vue"
 import Router from "vue-router"
-import Login from "./views/Login.vue"
-import Home from "./views/Home.vue"
-import User from "./views/User/User.vue"
-import Roles from "./views/Roles/Roles"
-import Rights from "./views/Rights/rights"
-import Goods from "./views/Goods/goods"
-import Params from "./views/Goods/params"
-import Categories from "./views/Goods/categories"
-import GoodAdd from "./views/Goods/goodAdd"
+
+const Login = () => import("./views/Login.vue")
+const Home = () => import("./views/Home.vue")
+const User = () => import("./views/User/User.vue")
+const Roles = () => import("./views/Roles/Roles")
+const Rights = () => import("./views/Rights/rights")
+const Goods = () => import("./views/Goods/goods")
+const Params = () => import("./views/Goods/params")
+const Categories = () => import("./views/Goods/categories")
+const GoodAdd = () => import("./views/Goods/goodAdd")
+
 Vue.use(Router)
 
 const router = new Router({
